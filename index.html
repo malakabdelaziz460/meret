@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ميريت | Meret - متجر الفخامة والجمال</title>
+    <!-- استيراد خط Cairo الاحترافي -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #3D2C25;   /* بني ملكي داكن مستوحى من اللوجو */
+            --accent-color: #C5A880;    /* ذهبي مطفي / بيج دافئ للتفاصيل والأزرار */
+            --bg-color: #FAF8F5;        /* عاجي ناعم جداً للخلفية مريح للعين */
+            --white: #FFFFFF;
+            --text-main: #2E221C;       /* لون النص الأساسي */
+            --text-muted: #7A6E67;     /* لون النص الفرعي */
+            --shadow: 0 10px 30px rgba(61, 44, 37, 0.06);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* شريط التنقل العلوي الاحترافي */
+        nav {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+            border-bottom: 1px solid #EFEAE4;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+
+        .logo-area img {
+            height: 100px; /* حجم اللوجو متناسق مع شريط التنقل */
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* زر السلة العائم في الهيدر */
+        .cart-trigger {
+            background: none;
+            border: none;
+            position: relative;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .cart-trigger:hover {
+            transform: scale(1.05);
+        }
+
+        .cart-icon-svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--primary-color);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: var(--accent-color);
+            color: var(--white);
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* بنر ترحيبي عريض (Hero Section) */
+        .hero {
+            background: linear-gradient(135deg, #F3ECE3 0%, #E7DDD0 100%);
+            padding: 80px 20px;
+            text-align: center;
+            border-bottom: 1px solid #E5DEC9;
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* الحاوية الرئيسية للمنتجات */
+        .main-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-header h3 {
+            font-size: 26px;
+            color: var(--primary-color);
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-header h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* شبكة عرض المنتجات */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        /* كارت المنتج الاحترافي */
+        .product-card {
+            background-color: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(239, 234, 228, 0.5);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(61, 44, 37, 0.1);
+        }
+
+        /* بادج لتمييز المنتج */
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 30px;
+            z-index: 5;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            background-color: #F8F5F0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.06);
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-category {
+            font-size: 12px;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .product-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: auto;
+            margin-bottom: 15px;
+        }
+
+        .product-price span {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-right: 2px;
+        }
+
+        .btn-add-cart {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-add-cart:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* سلة المشتريات المنزلقة من الجانب (Slide-out Drawer) */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -400px; /* تختفي خارج الشاشة يميناً */
+            width: 400px;
+            height: 100%;
+            background-color: var(--white);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-drawer.active {
+            right: 0; /* تظهر عند تنشيطها */
+        }
+
+        @media (max-width: 450px) {
+            .cart-drawer {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* خلفية معتمة تظهر عند فتح السلة */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            display: none;
+        }
+
+        .cart-overlay.active {
+            display: block;
+        }
+
+        .cart-header {
+            padding: 24px;
+            border-bottom: 1px solid #EFEAE4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h4 {
+            font-size: 20px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .close-cart-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-cart-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .cart-body {
+            flex-grow: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .empty-cart-text {
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 50px;
+            font-size: 15px;
+        }
+
+        /* عناصر السلة */
+        .cart-drawer-item {
+            display: flex;
+            gap: 15px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #F6F1EA;
+            align-items: center;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+        }
+
+        .cart-item-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .cart-item-meta {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .cart-item-remove-btn {
+            background: none;
+            border: none;
+            color: #FF5E5E;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .cart-item-remove-btn:hover {
+            text-decoration: underline;
+        }
+
+        .cart-footer {
+            padding: 24px;
+            border-top: 1px solid #EFEAE4;
+            background-color: #FAF8F5;
+        }
+
+        .cart-subtotal {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            background-color: #25D366;
+            color: var(--white);
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+        }
+
+        .checkout-btn:hover {
+            background-color: #1ebd59;
+            transform: translateY(-2px);
+        }
+
+        /* فوتر الموقع */
+        footer {
+            background-color: var(--primary-color);
+            color: #E7DDD0;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            border-top: 4px solid var(--accent-color);
+        }
+
+        footer p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- خلفية معتمة عند تفعيل السلة -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+    <!-- شريط التنقل العلوي -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo-area">
+                <!-- استبدل logo.png بملف اللوجو الخاص بك -->
+                <img src="logo.png" alt="Meret Logo">
+                <span class="logo-text">ميريت</span
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#accessories">اكسسوارات</a></li>
+                <li><a href="#bags">شنط</a></li>
+            </ul>
+
+            <button class="cart-trigger" onclick="toggleCart()" aria-label="عرض السلة">
+                <svg class="cart-icon-svg" viewBox="0 0 24 24">
+                    <path d="M17 18c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM7 18c-1.1 0-1.99.9-1.99 2S5.9 2 7 2 9 1.1 9 2s-.9-2-2-2zm0-3l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7z"/>
+                </svg>
+                <div class="cart-badge" id="cartBadgeCount">0</div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- بنر ترحيبي عريض -->
+    <header class="hero">
+        <h2>مجموعة ميريت الجديدة</h2>
+        <p>تصاميم لتعبر عن أناقتكِ وحضوركِ الفريد.</p>
+    </header>
+
+    <main class="main-container">
+        
+        <!-- قسم الإكسسوارات -->
+        <section id="accessories">
+            <div class="section-header">
+                <h3>اكسسوارات ميريت الفاخرة</h3>
+            </div>
+            
+            <div class="products-grid">
+                <!-- منتج 1 -->
+                <div class="product-card">
+                    <span class="product-badge">الأكثر مبيعاً</span>
+                    <div class="product-image">
+                        <img src="acc1.jpg" alt="سلسلة ميريت الفرعونية">
+                    </div>
+                    <div class="product-info">
+                       
+                        <div class="product-price">185 <span>ج.م</span></div>
+                        <button class="btn-add-cart" onclick="addToCart('', 185)">إضافة إلى السلة</button>
+                    </div>
+                </div>
+
+                <!-- منتج 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="acc2.jpg" alt="  ">
+                    </div>
+                    <div class="product-info">
+                       
+                        <div class="product-price">165 <span>ج.م</span></div>
+                        <button class="btn-add-cart" onclick="addToCart('', 165)">إضافة إلى السلة</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الشنط -->
+        <section id="bags" style="margin-top: 50px;">
+            <div class="section-header">
+                <h3>حقائب ميريت الكلاسيكية</h3>
+            </div>
+            
+            <div class="products-grid">
+                <!-- منتج 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="bag1.png" alt="">
+                    </div>
+                    <div class="product-info">
+                        
+                        
+                        <div class="product-price">320 <span>ج.م</span></div>
+                        <button class="btn-add-cart" onclick="addToCart('', 320)">إضافة إلى السلة</button>
+                    </div>
+                </div>
+
+                <!-- منتج 4 -->
+                  <div class="product-card">
+                    <div class="product-image">
+                        <img src="bag2.png" alt="">
+                    </div>
+                    <div class="product-info">
+                        
+                        
+                        <div class="product-price">550 <span>ج.م</span></div>
+                        <button class="btn-add-cart" onclick="addToCart(' ', 550)">إضافة إلى السلة</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- سلة المشتريات المنزلقة (Side Drawer) -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h4>سلة التسوق</h4>
+            <button class="close-cart-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        
+        <div class="cart-body" id="cartDrawerBody">
+            <!-- ستضاف المنتجات ديناميكياً هنا -->
+            <p class="empty-cart-text">حقيبتك فارغة حالياً</p>
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-subtotal">
+                <span>الإجمالي:</span>
+                <span id="cartTotal">0 ج.م</span>
+            </div>
+            <button class="checkout-btn" onclick="checkoutWhatsApp()">
+                إرسال الطلب عبر الواتساب
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.458L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 1.977 14.113.953 11.487.953c-5.442 0-9.866 4.372-9.87 9.802 0 1.714.46 3.393 1.332 4.883L1.93 21.17l5.122-1.328c-.282.162-.405.234.595-.688z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 ميريت Meret. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        let cart = [];
+        // ضع رقم الواتساب الخاص بك هنا بالصيغة الدولية (بدون أصفار بالبداية أو علامة +)
+       const myWhatsAppNumber = "201112149771";
+
+        // فتح وإغلاق السلة الجانبية
+        function toggleCart() {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            
+            drawer.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // إضافة منتج للسلة
+        function addToCart(name, price) {
+            const itemInCart = cart.find(item => item.name === name);
+            if (itemInCart) {
+                itemInCart.qty += 1;
+            } else {
+                cart.push({ name, price, qty: 1 });
+            }
+            updateCartUI();
+            
+            // فتح السلة تلقائياً عند إضافة منتج لتنبيه المستخدم
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartOverlay');
+            if(!drawer.classList.contains('active')) {
+                drawer.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        // حذف منتج من السلة
+        function removeProduct(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        // تحديث محتوى واجهة السلة
+        function updateCartUI() {
+            const cartBody = document.getElementById('cartDrawerBody');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartBadge = document.getElementById('cartBadgeCount');
+            
+            cartBody.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartBody.innerHTML = '<p class="empty-cart-text">حقيبتك فارغة حالياً</p>';
+                cartTotal.innerText = '0 ج.م';
+                cartBadge.innerText = '0';
+                return;
+            }
+
+            let subtotal = 0;
+            let totalCount = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.qty;
+                subtotal += itemTotal;
+                totalCount += item.qty;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-drawer-item';
+                itemDiv.innerHTML = `
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-meta">${item.price} ج.م × ${item.qty}</div>
+                    </div>
+                    <div>
+                        <button class="cart-item-remove-btn" onclick="removeProduct(${index})">إزالة</button>
+                    </div>
+                `;
+                cartBody.appendChild(itemDiv);
+            });
+
+            cartTotal.innerText = `${subtotal} ج.م`;
+            cartBadge.innerText = totalCount;
+        }
+
+        // إتمام الشراء وإرسال البيانات للواتساب
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                alert("سلة الشراء فارغة!");
+                return;
+            }
+
+            let text = "مرحباً متجر ميريت ⚜️\nلقد قمت باختيار المنتجات التالية من الموقع الإلكتروني:\n\n";
+            let grandTotal = 0;
+
+            cart.forEach((item, index) => {
+                const totalItemPrice = item.price * item.qty;
+                grandTotal += totalItemPrice;
+                text += `🛍️ *${item.name}*\n   العدد: ${item.qty} | السعر: ${totalItemPrice} ج.م\n\n`;
+            });
+
+            text += `━━━━━━━━━━━━━━━\n💰 *الإجمالي الكلي: ${grandTotal} ج.م*\n\nيرجى تأكيد استلام الطلب لإرسال بيانات الشحن الخاصة بي.`;
+
+            const encodedText = encodeURIComponent(text);
+            const url = `https://wa.me/${myWhatsAppNumber}?text=${encodedText}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
